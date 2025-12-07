@@ -98,6 +98,15 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
         role-session-name: GitHubActions
         audience: sts.amazonaws.com
+    
+    - name: Debug AWS Credentials
+      run: |
+          echo "AWS Identity:"
+          aws sts get-caller-identity
+          echo "EKS Clusters:"
+          aws eks list-clusters --region ${{ env.AWS_REGION }}
+          echo "AWS Configured:"
+          aws configure list
     - name: Get AWS Account ID
       id: account-id
       run: |
