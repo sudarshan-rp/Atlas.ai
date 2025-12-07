@@ -7,7 +7,7 @@ cluster_version    = "1.33"
 node_instance_type = "t3.small"
 node_desired_size  = 1
 node_min_size      = 1
-node_max_size      = 3
+node_max_size      = 2
 
 # Update this with your actual ECR image URL after pushing the image
 docker_image = "771826808000.dkr.ecr.us-east-1.amazonaws.com/document-api:latest"
