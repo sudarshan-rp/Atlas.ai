@@ -104,6 +104,11 @@ jobs:
     name: Deploy to EKS
     runs-on: ubuntu-latest
     needs: build-and-push
+    env:  # ADD THIS
+      AWS_IAM_ROLE: ${{ secrets.AWS_IAM_ROLE }}
+      AWS_REGION: us-east-1
+      EKS_CLUSTER_NAME: document-api-cluster
+      ECR_REPOSITORY: document-api
     if: github.event_name == 'push' 
     
     steps:
