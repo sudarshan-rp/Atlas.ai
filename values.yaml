@@ -1,6 +1,0 @@
-clusterName: document-api-cluster
-serviceAccount:
-  create: true
-  name: aws-load-balancer-controller
-region: us-east-1  # REQUIRED
-vpcId: vpc-01877e641498ab6d6
