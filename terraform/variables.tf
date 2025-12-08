@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "environment" {
   description = "Environment name"
   type        = string
-  default     = "production"
+  default     = "development"
 }
 
 variable "project_name" {
@@ -61,7 +61,7 @@ variable "node_max_size" {
 variable "docker_image" {
   description = "Docker image for the application"
   type        = string
-  default     = "your-account.dkr.ecr.us-east-1.amazonaws.com/document-api:latest"
+  default     = "771826808000.dkr.ecr.us-east-1.amazonaws.com/document-api:latest"
 }
 
 variable "app_port" {

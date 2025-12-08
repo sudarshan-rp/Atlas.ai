@@ -1,5 +1,5 @@
 aws_region         = "us-east-1"
-environment        = "production"
+environment        = "development"
 project_name       = "document-api"
 vpc_cidr           = "10.0.0.0/16"
 cluster_name       = "document-api-cluster"
