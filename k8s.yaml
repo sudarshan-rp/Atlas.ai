@@ -4,7 +4,7 @@ metadata:
   name: document-api-sa
   namespace: default
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::771826808000:role/document-api-app-service-account-role
+    eks.amazonaws.com/role-arn: arn:aws:iam::$AWS_ACCOUNT_ID:role/document-api-app-service-account-role
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -36,7 +36,7 @@ spec:
       serviceAccountName: document-api-sa
       containers:
       - name: document-api
-        image: 771826808000.dkr.ecr.us-east-1.amazonaws.com/document-api:latest
+        image: $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/document-api:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8008

@@ -63,6 +63,14 @@ jobs:
       - name: Terraform Destroy
         if: github.event.inputs.action == 'destroy'
         run: |
+          # Delete Kubernetes ingress first to remove ALB
+          aws eks update-kubeconfig --name document-api-cluster --region ${{ env.AWS_REGION }} || true
+          kubectl delete ingress --all -n default || true
+          echo "Waiting for ALB to be deleted..."
+          sleep 30
+          
+          # Now destroy Terraform resources
+          cd terraform
           terraform destroy -auto-approve
           echo "✅ Infrastructure destroyed"
       

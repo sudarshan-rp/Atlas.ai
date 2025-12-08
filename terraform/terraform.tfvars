@@ -9,8 +9,5 @@ node_desired_size  = 1
 node_min_size      = 1
 node_max_size      = 2
 
-# Update this with your actual ECR image URL after pushing the image
-docker_image = "771826808000.dkr.ecr.us-east-1.amazonaws.com/document-api:latest"
-
 app_port    = 8008
 api_version = "1.0.0"

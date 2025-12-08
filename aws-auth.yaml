@@ -5,17 +5,12 @@ metadata:
   namespace: kube-system
 data:
   mapRoles: |
-    - rolearn: arn:aws:iam::771826808000:role/document-api-eks-node-group-role
+    - rolearn: arn:aws:iam::$AWS_ACCOUNT_ID:role/document-api-eks-node-group-role
       groups:
       - system:bootstrappers
       - system:nodes
       username: system:node:{{EC2PrivateDNSName}}
-    - rolearn: arn:aws:iam::771826808000:role/OIDC
+    - rolearn: arn:aws:iam::$AWS_ACCOUNT_ID:role/OIDC
       username: github-actions
-      groups:
-      - system:masters
-  mapUsers: |
-    - userarn: arn:aws:iam::771826808000:user/july2025
-      username: july2025
       groups:
       - system:masters

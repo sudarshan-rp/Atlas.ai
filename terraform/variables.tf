@@ -61,7 +61,7 @@ variable "node_max_size" {
 variable "docker_image" {
   description = "Docker image for the application"
   type        = string
-  default     = "771826808000.dkr.ecr.us-east-1.amazonaws.com/document-api:latest"
+  default     = ""  # Will be constructed using data.aws_caller_identity
 }
 
 variable "app_port" {
