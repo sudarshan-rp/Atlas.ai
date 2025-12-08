@@ -13,7 +13,7 @@ metadata:
   namespace: default
 data:
   API_VERSION: "1.0.0"
-  ENVIRONMENT: "production"
+  ENVIRONMENT: "development"
   PORT: "8008"
 ---
 apiVersion: apps/v1

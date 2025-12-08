@@ -36,7 +36,7 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PORT=8000 \
+    PORT=8008 \
     ENVIRONMENT=production \
     API_VERSION=1.0.0 \
     PATH="/opt/venv/bin:$PATH"
@@ -65,7 +65,7 @@ USER appuser
 EXPOSE 8008
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+HEALTHCHECK --interval=60s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8008/health || exit 1
 
 # Run the application

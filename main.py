@@ -33,6 +33,7 @@ app = FastAPI(
 async def home():
     """Root endpoint - API information"""
     return {
+        "Basic information": "Document Processing API",
         "service": "Document Processing API",
         "version": API_VERSION,
         "environment": ENVIRONMENT,
@@ -46,7 +47,6 @@ async def home():
 
 @app.get("/health")
 async def health():
-    """Health check endpoint for load balancer"""
     return JSONResponse(
         content={
             "status": "healthy",
@@ -60,7 +60,6 @@ async def health():
 async def process_file(file: UploadFile = File(...)):
     """
     Process uploaded file
-    Expected: multipart/form-data with 'file' field
     Returns: JSON with status and filename
     """
     start_time = time.time()
@@ -146,7 +145,7 @@ async def internal_error_handler(request: Request, exc: Exception):
 if __name__ == '__main__':
     import uvicorn
     
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('PORT', 8008))
     logger.info(f"Starting Document Processing API v{API_VERSION} on port {port}")
     
     uvicorn.run(
