@@ -1,0 +1,91 @@
+name: Terraform Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Terraform action'
+        required: true
+        default: 'plan'
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  terraform:
+    name: Terraform ${{ github.event.inputs.action }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-session-name: GitHubActions-Terraform
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
+      
+      - name: Terraform Init
+        run: terraform init
+      
+      - name: Terraform Validate
+        run: terraform validate
+      
+      - name: Terraform Plan
+        if: github.event.inputs.action == 'plan' || github.event.inputs.action == 'apply'
+        run: terraform plan -out=tfplan
+      
+      - name: Terraform Apply
+        if: github.event.inputs.action == 'apply'
+        run: |
+          terraform apply -auto-approve tfplan
+          echo "✅ Infrastructure deployed"
+      
+      - name: Terraform Destroy
+        if: github.event.inputs.action == 'destroy'
+        run: |
+          terraform destroy -auto-approve
+          echo "✅ Infrastructure destroyed"
+      
+      - name: Configure kubectl
+        if: github.event.inputs.action == 'apply'
+        run: |
+          aws eks update-kubeconfig --name document-api-cluster --region ${{ env.AWS_REGION }}
+          echo "✅ kubectl configured"
+      
+      - name: Apply aws-auth ConfigMap
+        if: github.event.inputs.action == 'apply'
+        run: |
+          cd ..
+          kubectl apply -f aws-auth.yaml
+          echo "✅ aws-auth ConfigMap applied - GitHub Actions can now access cluster"
+      
+      - name: Verify Setup
+        if: github.event.inputs.action == 'apply'
+        run: |
+          echo "📊 Cluster Status:"
+          kubectl get nodes
+          echo ""
+          echo "🔧 AWS Load Balancer Controller:"
+          kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-controller
+          echo ""
+          echo "✅ Infrastructure is ready for application deployment"
