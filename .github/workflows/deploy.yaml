@@ -135,6 +135,13 @@ jobs:
                 kubectl cluster-info
                 kubectl get nodes
             
+            - name: Apply Kubernetes manifests
+              run: |
+                # Apply deployment, service, and ingress
+                kubectl apply -f k8s.yaml
+                kubectl apply -f ingress.yaml
+                echo "✅ Kubernetes manifests applied"
+            
             - name: Deploy to EKS
               run: |
                 # Update image in deployment
