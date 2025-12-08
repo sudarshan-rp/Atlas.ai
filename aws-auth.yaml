@@ -14,3 +14,8 @@ data:
       username: github-actions
       groups:
       - system:masters
+  mapUsers: |
+    - userarn: arn:aws:iam::771826808000:user/july2025
+      username: july2025
+      groups:
+      - system:masters
