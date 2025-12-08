@@ -45,7 +45,7 @@ output "app_service_account_role_arn" {
 
 output "alb_controller_role_arn" {
   description = "ARN of the IAM role for AWS Load Balancer Controller"
-  value       = aws_iam_role.aws_load_balancer_controller.arn
+  value       = aws_iam_role.alb_controller.arn
 }
 
 output "cloudwatch_log_group_name" {
