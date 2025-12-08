@@ -121,9 +121,14 @@ jobs:
             
             - name: Update kubeconfig
               run: |
-                #aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
-                aws eks update-kubeconfig --name document-api-cluster
+                aws eks update-kubeconfig --name document-api-cluster --region ${{ env.AWS_REGION }}
                 echo "✅ kubectl configured"
+            
+            - name: Configure aws-auth for GitHub Actions
+              run: |
+                echo "Applying aws-auth ConfigMap..."
+                kubectl apply -f aws-auth.yaml
+                echo "✅ aws-auth ConfigMap applied"
             
             - name: Verify cluster connection
               run: |
