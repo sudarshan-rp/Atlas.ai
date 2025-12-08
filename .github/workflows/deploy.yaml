@@ -89,6 +89,23 @@ jobs:
                     
                     echo "✅ Image pushed: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
             
+            - name: Run Trivy vulnerability scan
+              uses: aquasecurity/trivy-action@master # Use the official Trivy action
+              with:
+                        image-ref: '$ECR_REGISTRY/$ECR_REPOSITORY:latest' # Specify the image to scan
+                        format: 'sarif' # Output format (e.g., table, json, sarif) (Static Analysis Results Interchange Format) 
+                        output: 'trivy-results.sarif' # Output file name
+                        exit-code: '1' # Fail the workflow if vulnerabilities are found
+                        ignore-unfixed: true # Ignore unfixed vulnerabilities
+                        #severity: 'CRITICAL,HIGH' # Scan for specified severity levels
+              continue-on-error: true
+
+            - name: Upload Trivy scan results to GitHub Security tab
+              uses: github/codeql-action/upload-sarif@v3
+              if: always()
+              with:
+                sarif_file: 'trivy-results.sarif'
+            
   deploy:
           name: Deploy to EKS
           runs-on: ubuntu-latest
