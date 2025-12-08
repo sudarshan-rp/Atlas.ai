@@ -70,7 +70,6 @@ jobs:
           sleep 30
           
           # Now destroy Terraform resources
-          cd terraform
           terraform destroy -auto-approve
           echo "✅ Infrastructure destroyed"
       
