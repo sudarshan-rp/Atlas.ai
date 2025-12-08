@@ -31,7 +31,7 @@ variable "cluster_name" {
 variable "cluster_version" {
   description = "Kubernetes version"
   type        = string
-  default     = "1.33"
+  default     = "1.34"
 }
 
 variable "node_instance_type" {
@@ -55,7 +55,7 @@ variable "node_min_size" {
 variable "node_max_size" {
   description = "Maximum number of worker nodes"
   type        = number
-  default     = 3
+  default     = 2
 }
 
 variable "docker_image" {
@@ -67,7 +67,7 @@ variable "docker_image" {
 variable "app_port" {
   description = "Application port"
   type        = number
-  default     = 5000
+  default     = 8008
 }
 
 variable "api_version" {
