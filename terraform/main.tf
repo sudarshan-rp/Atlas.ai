@@ -20,15 +20,14 @@ terraform {
     }
   }
 
-  # Optional: Use S3 backend for state management
-  # Uncomment and configure for production use
-  # backend "s3" {
-  #   bucket         = "your-terraform-state-bucket"
-  #   key            = "document-api/terraform.tfstate"
-  #   region         = "us-east-1"
-  #   encrypt        = true
-  #   dynamodb_table = "terraform-state-lock"
-  # }
+  # S3 Backend for state management
+  backend "s3" {
+    bucket         = "document-api-tfstate-backend"
+    key            = "document-api/terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "document-api-terraform-locks"
+  }
 }
 
 provider "aws" {
